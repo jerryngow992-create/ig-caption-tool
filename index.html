@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Caption Tool</title>
+</head>
+<body>
+
+<h1>AI IG Caption Tool</h1>
+
+<input id="topic" placeholder="输入主题">
+<button onclick="generate()">生成文案</button>
+
+<p id="result"></p>
+
+<script>
+async function generate() {
+  const topic = document.getElementById("topic").value;
+
+  const res = await fetch("/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ topic })
+  });
+
+  const data = await res.json();
+  document.getElementById("result").innerText = data.caption;
+}
+</script>
+
+</body>
+</html>
