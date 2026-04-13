@@ -1,27 +1,37 @@
+
+
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
+const path = require("path");
 
 const app = express();
-
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
+
+// API
+app.use(express.static(path.join(__dirname)));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
 
 app.post("/generate", (req, res) => {
   const { topic } = req.body;
 
-  const caption = `
-✨ ${topic}
+  console.log("收到请求:", topic);
+
+  res.json({
+    caption: `✨ ${topic}
 
 今天的生活值得被记录。
-简单，但有力量。
-
-#生活 #日常 #instagram
-`;
-
-  res.json({ caption });
+#AI #Instagram`
+  });
 });
 
-app.listen(3000, () => {
-  console.log("🚀 Server running on http://localhost:3000");
+// PORT（Render + 本地都适用）
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("🚀 Server running on port " + PORT);
 });
