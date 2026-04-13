@@ -1,5 +1,3 @@
-
-
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -8,28 +6,27 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// API
-app.use(express.static(path.join(__dirname)));
+// ✅ 让前端文件可以被访问
+app.use(express.static(__dirname));
 
+// ✅ 首页返回 index.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-
+// API
 app.post("/generate", (req, res) => {
   const { topic } = req.body;
-
-  console.log("收到请求:", topic);
 
   res.json({
     caption: `✨ ${topic}
 
-今天的生活值得被记录。
+今天值得被记录。
 #AI #Instagram`
   });
 });
 
-// PORT（Render + 本地都适用）
+// Render 必须用这个 PORT
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
